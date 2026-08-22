@@ -11,10 +11,11 @@ export default function Home() {
     address: '',
     nic: '',
     fee: '',
-    occupation: ''
+    occupation: '',
+    region: 'ගන්දර'
   });
 
-  const [activePrint, setActivePrint] = useState(null); // null, 'summary', or member object
+  const [activePrint, setActivePrint] = useState(null);
   const printRef = useRef();
 
   const handleChange = (e) => {
@@ -35,11 +36,11 @@ export default function Home() {
       address: '',
       nic: '',
       fee: '',
-      occupation: ''
+      occupation: '',
+      region: 'ගන්දර'
     });
   };
 
-  // Trigger Print Window
   const handlePrint = (type) => {
     setActivePrint(type);
     setTimeout(() => {
@@ -50,7 +51,7 @@ export default function Home() {
   return (
     <div style={{ fontFamily: "'Iskoola Pota', 'Noto Sans Sinhala', Arial, sans-serif", padding: '20px', maxWidth: '1000px', margin: 'auto' }}>
       
-      {/* SCREEN ONLY CONTENT (Web Application View) */}
+      {/* SCREEN ONLY VIEW */}
       <div className="no-print">
         <h1 style={{ textAlign: 'center', color: '#1a365d', marginBottom: '5px' }}>
           සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය
@@ -59,9 +60,9 @@ export default function Home() {
           සාමාජික කළමනාකරණ පද්ධතිය (Member Management System)
         </h3>
 
-        {/* Form to Add Members */}
+        {/* INPUT FORM WITH PRADESHIKAYA SELECT BOX */}
         <form onSubmit={handleSubmit} style={{ background: '#f8fafc', padding: '20px', borderRadius: '8px', border: '1px solid #cbd5e1', marginBottom: '30px' }}>
-          <h3 style={{ marginTop: 0, color: '#2b6cb0' }}>නව සාමාජිකයෙකු ඇතුළත් කිරීම / Add New Member</h3>
+          <h3 style={{ marginTop: 0, color: '#2563eb' }}>නව සාමාජිකයෙකු ඇතුළත් කිරීම / Add New Member</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             
             <div>
@@ -99,13 +100,23 @@ export default function Home() {
               <input type="text" name="occupation" value={formData.occupation} onChange={handleChange} required style={inputStyle} />
             </div>
 
+            <div>
+              <label style={{ fontWeight: 'bold', color: '#1e3a8a' }}>8. ප්‍රාදේශිකය / Region Select:</label>
+              <select name="region" value={formData.region} onChange={handleChange} style={{ ...inputStyle, border: '2px solid #2563eb', fontWeight: 'bold' }}>
+                <option value="ගන්දර">1. ගන්දර (Gandara)</option>
+                <option value="කන්දගොඩැල්ල">2. කන්දගොඩැල්ල (Kandagodella)</option>
+                <option value="කපුගම">3. කපුගම (Kapugama)</option>
+                <option value="අපරැක්ක">4. අපරැක්ක (Aparekka)</option>
+                <option value="නා ඔටුන්න">5. නා ඔටුන්න (Na Otunna)</option>
+              </select>
+            </div>
+
           </div>
           <button type="submit" style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }}>
             + සාමාජිකයා එකතු කරන්න / Add Member
           </button>
         </form>
 
-        {/* Member Table Header & Action */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
           <h2>සාමාජික ලැයිස්තුව / Member List ({members.length})</h2>
           {members.length > 0 && (
@@ -115,16 +126,15 @@ export default function Home() {
           )}
         </div>
 
-        {/* Table View */}
         <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', borderColor: '#cbd5e1' }}>
           <thead>
             <tr style={{ background: '#f1f5f9' }}>
               <th>සා.අංකය</th>
               <th>නම</th>
               <th>ජා.හැ.අ</th>
-              <th>ලිපිනය</th>
+              <th>ප්‍රාදේශිකය</th>
               <th>මුදල</th>
-              <th>ක්‍රියාකාරකම් (Actions)</th>
+              <th>ක්‍රියාකාරකම්</th>
             </tr>
           </thead>
           <tbody>
@@ -138,7 +148,7 @@ export default function Home() {
                   <td>{m.memberNo}</td>
                   <td>{m.fullName}</td>
                   <td>{m.nic}</td>
-                  <td>{m.address}</td>
+                  <td><b>{m.region}</b></td>
                   <td>Rs. {m.fee}</td>
                   <td>
                     <button onClick={() => handlePrint(m)} style={{ padding: '6px 12px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
@@ -152,27 +162,27 @@ export default function Home() {
         </table>
       </div>
 
-      {/* PRINT-ONLY AREA (This part is formatted for A4 PDF Output) */}
+      {/* PRINT AREA (A4 OUTPUT) */}
       <div className="print-only" ref={printRef}>
         
-        {/* 1. FULL SUMMARY LIST PDF FORMAT */}
+        {/* 1. FULL SUMMARY LIST PDF */}
         {activePrint === 'summary' && (
           <div style={{ padding: '10mm', color: '#000' }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <h2 style={{ margin: '0', fontSize: '20px', textDecoration: 'underline' }}>සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
               <h3 style={{ margin: '5px 0', fontSize: '17px', textDecoration: 'underline' }}>සාමාජික නාම ලේඛනය</h3>
-              <p style={{ margin: '0', fontSize: '15px', fontWeight: 'bold', textDecoration: 'underline' }}>අංක 08 නාඹිඩුඅන්න ප්‍රාදේශිකය</p>
             </div>
 
             <table border="1" cellPadding="6" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'center', fontSize: '13px', borderColor: '#000' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f2f2f2' }}>
-                  <th style={{ width: '8%' }}>අ.අ</th>
-                  <th style={{ width: '12%' }}>සා.අ</th>
-                  <th style={{ width: '30%' }}>නම</th>
-                  <th style={{ width: '30%' }}>ලිපිනය</th>
-                  <th style={{ width: '10%' }}>ජා.හැ.අ</th>
-                  <th style={{ width: '10%' }}>කො.මු</th>
+                  <th>අ.අ</th>
+                  <th>සා.අ</th>
+                  <th>නම</th>
+                  <th>ලිපිනය</th>
+                  <th>ජා.හැ.අ</th>
+                  <th>ප්‍රාදේශිකය</th>
+                  <th>මුදල (Rs.)</th>
                 </tr>
               </thead>
               <tbody>
@@ -183,6 +193,7 @@ export default function Home() {
                     <td style={{ textAlign: 'left' }}>{m.fullName}</td>
                     <td style={{ textAlign: 'left' }}>{m.address}</td>
                     <td>{m.nic}</td>
+                    <td>{m.region}</td>
                     <td>{m.fee}</td>
                   </tr>
                 ))}
@@ -190,7 +201,7 @@ export default function Home() {
             </table>
 
             <p style={{ fontSize: '13px', marginTop: '30px', lineHeight: '1.8', textAlign: 'justify' }}>
-              ඉහත අනු අංක .......... සිට .......... දක්වා වූ සාමාජිකයින් සී/ස දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතියේ අංක .......... දරණ ................................. Pradeshiya වර්ෂ ........ මස ....... දින ........ට පෙර සාමාජිකත්වය ලබාගෙන ඇති වර්ෂ ....... මස ...... දින ....... ඡන්දය සඳහා සුදුසුකම් ඇති සාමාජිකයින්ගේ නාම ලේඛනය බව මෙයින් සහතික කරමු.
+              ඉහත අනු අංක .......... සිට .......... දක්වා වූ සාමාජිකයින් සී/ස දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතියේ අංක .......... දරණ Pradeshiya වර්ෂ ........ මස ....... දින ........ට පෙර සාමාජිකත්වය ලබාගෙන ඇති වර්ෂ ....... මස ...... දින ....... ඡන්දය සඳහා සුදුසුකම් ඇති සාමාජිකයින්ගේ නාම ලේඛනය බව මෙයින් සහතික කරමු.
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '60px', textAlign: 'center', fontSize: '13px' }}>
@@ -202,7 +213,7 @@ export default function Home() {
                 <div>...........................................</div>
                 <div style={{ marginTop: '5px', fontWeight: 'bold' }}>ගරු අධ්‍යක්ෂක</div>
               </div>
-              <div style={{ border: '2px solid #000', borderRadius: '50%', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', textAlign: 'center' }}>
+              <div style={{ border: '2px solid #000', borderRadius: '50%', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>
                 සමිතියේ<br/>මුද්‍රාව
               </div>
               <div>
@@ -210,105 +221,130 @@ export default function Home() {
                 <div style={{ marginTop: '5px', fontWeight: 'bold' }}>ගරු සභාපති</div>
               </div>
             </div>
-            
-            <div style={{ textAlign: 'right', marginTop: '40px', fontSize: '11px' }}>1 | Page</div>
           </div>
         )}
 
-        {/* 2. INDIVIDUAL SHARE CERTIFICATE PDF FORMAT */}
+        {/* 2. INDIVIDUAL SHARE CERTIFICATE PDF */}
         {activePrint && activePrint !== 'summary' && (
-          <div style={{ border: '3px double #000', padding: '15mm', minHeight: '260mm', position: 'relative', color: '#000' }}>
+          <div style={{ border: '2px solid #000', padding: '10mm', minHeight: '270mm', position: 'relative', color: '#000', boxSizing: 'border-box' }}>
             
-            {/* Header Header Info */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #000', paddingBottom: '10px' }}>
-              {/* Left Logo */}
-              <div style={{ width: '80px', height: '80px', borderRadius: '50%', border: '2px solid #1e3a8a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#1e3a8a', fontSize: '10px', textAlign: 'center', fontWeight: 'bold' }}>
-                ⚙️ CO-OP <br/> ශ්‍රී ලංකා
+            {/* Header Logos */}
+            <div style={{ borderBottom: '3px solid #000', paddingBottom: '10px', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                
+                {/* Left Co-op Emblem Logo SVG */}
+                <div style={{ width: '90px', height: '90px' }}>
+                  <svg viewBox="0 0 100 100" width="100%" height="100%">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#6b21a8" strokeWidth="6" />
+                    <circle cx="50" cy="50" r="38" fill="none" stroke="#dc2626" strokeWidth="3" />
+                    <circle cx="50" cy="50" r="34" fill="none" stroke="#eab308" strokeWidth="3" />
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="#16a34a" strokeWidth="3" />
+                    <circle cx="50" cy="50" r="26" fill="none" stroke="#2563eb" strokeWidth="3" />
+                    <circle cx="50" cy="50" r="18" fill="#1e293b" />
+                    <path d="M 50,38 L 46,54 L 54,54 Z" fill="#fff" />
+                    <path d="M 40,48 L 50,56 L 45,64 Z" fill="#fff" />
+                    <path d="M 60,48 L 50,56 L 55,64 Z" fill="#fff" />
+                  </svg>
+                </div>
+
+                {/* Header Text */}
+                <div style={{ textAlign: 'center', flexGrow: 1 }}>
+                  <h2 style={{ margin: 0, color: '#312e81', fontSize: '22px', fontWeight: 'bold' }}>සීමා සහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
+                  <div style={{ fontSize: '13px', fontWeight: 'bold', margin: '2px 0' }}>අංක:111, තංගල්ල පාර, දෙවිනුවර</div>
+                  <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#000' }}>Multi-Purpose Co-operative Societies Ltd-Devinuwara</div>
+                  <div style={{ fontSize: '11px', fontWeight: 'bold' }}>No: 111, Tangalle Road, Devinuwara &nbsp;&nbsp; 041-4935340/ 041-2224449</div>
+                  <div style={{ fontSize: '12px', color: '#0000ff', textDecoration: 'underline', fontWeight: 'bold' }}>mpcsdevinuwara@gmail.com</div>
+                </div>
+
+                {/* Right Orange COOP Logo SVG */}
+                <div style={{ width: '100px', textAlign: 'right' }}>
+                  <svg viewBox="0 0 120 50" width="100%" height="45">
+                    <text x="0" y="38" fill="#ea580c" fontSize="38" fontWeight="900" fontFamily="sans-serif">coop</text>
+                  </svg>
+                </div>
               </div>
 
-              {/* Title & Contact */}
-              <div style={{ textAlign: 'center', flexGrow: 1, padding: '0 10px' }}>
-                <h2 style={{ margin: 0, color: '#312e81', fontSize: '20px' }}>සීමා සහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
-                <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#111827', margin: '3px 0' }}>අංක:111, තංගල්ල පාර, දෙවිනුවර</div>
-                <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a8a' }}>Multi-Purpose Co-operative Societies Ltd-Devinuwara</div>
-                <div style={{ fontSize: '11px' }}>No: 111, Tangalle Road, Devinuwara &nbsp;|&nbsp; 041-4935340/ 041-2224449</div>
-                <div style={{ fontSize: '11px', color: '#2563eb', textDecoration: 'underline' }}>mpcsdevinuwara@gmail.com</div>
-              </div>
-
-              {/* Right COOP Text Logo */}
-              <div style={{ fontSize: '32px', fontWeight: '900', color: '#ea580c', fontStyle: 'italic', fontFamily: 'sans-serif' }}>
-                coop
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginTop: '10px', fontWeight: 'bold' }}>
+                <div>මගේ අංකය: M/D/M/GM/ දෙවි/.........../...........</div>
+                <div style={{ textAlign: 'right' }}>ලියාපදිංචි අංකය:<br/>මාර/දෙවි/05</div>
               </div>
             </div>
 
-            {/* Reference Numbers */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginTop: '15px' }}>
-              <div>මගේ අංකය: <b>M/D/M/GM/ දෙවි/.........../...........</b></div>
-              <div>ලියාපදිංචි අංකය:<br/><b>මාර/දෙවි/05</b></div>
+            {/* Title */}
+            <div style={{ textAlign: 'center', margin: '35px 0' }}>
+              <h1 style={{ fontSize: '32px', margin: 0, fontWeight: 'normal', fontFamily: 'serif' }}>සාමාජික කොටස් සහතිකය</h1>
             </div>
 
-            {/* Main Certificate Title */}
-            <div style={{ textAlign: 'center', margin: '40px 0 30px 0' }}>
-              <h1 style={{ fontSize: '28px', letterSpacing: '2px', margin: 0, textDecoration: 'underline' }}>සාමාජික කොටස් සහතිකය</h1>
+            {/* Formatted Certificate Fields */}
+            <div style={{ width: '85%', margin: '0 auto', fontSize: '16px', lineHeight: '2.8' }}>
+              
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>සාමාජිකයාගේ නම</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.fullName}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>ලිපිනය</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.address}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>ජා.හැ.අ.</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.nic}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>සාමාජික අංකය</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.memberNo}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>සාමාජිකත්වය ලබා ගත් දිනය</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.joinDate}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>ප්‍රාදේශිකය</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>{activePrint.region}</div>
+              </div>
+
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '45%' }}>ලබා ගත් කොටස් ප්‍රමාණය</div>
+                <div style={{ width: '5%' }}>-</div>
+                <div style={{ width: '50%', borderBottom: '1px dotted #000' }}>Rs. {activePrint.fee}</div>
+              </div>
+
             </div>
 
-            {/* Certificate Details List */}
-            <table style={{ width: '100%', fontSize: '16px', lineHeight: '2.5', margin: '0 auto', borderSpacing: '0 10px' }}>
-              <tbody>
-                <tr>
-                  <td style={{ width: '40%', fontWeight: 'bold' }}>සාමාජිකයාගේ නම</td>
-                  <td style={{ width: '5%' }}>-</td>
-                  <td style={{ width: '55%', borderBottom: '1px dotted #000' }}>{activePrint.fullName}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>ලිපිනය</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>{activePrint.address}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>ජා.හැ.අ.</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>{activePrint.nic}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>සාමාජික අංකය</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>{activePrint.memberNo}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>සාමාජිකත්වය ලබා ගත් දිනය</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>{activePrint.joinDate}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>ප්‍රාදේශිකය / රැකියාව</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>{activePrint.occupation}</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 'bold' }}>ලබා ගත් කොටස් ප්‍රමාණය / මුදල</td>
-                  <td>-</td>
-                  <td style={{ borderBottom: '1px dotted #000' }}>Rs. {activePrint.fee}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            {/* Footer Signatures and Stamp */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '70px' }}>
+            {/* Footer Signatures and Red Seal */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '60px', padding: '0 20px' }}>
+              
               <div style={{ textAlign: 'center' }}>
                 <div>...................................................</div>
-                <div style={{ marginTop: '5px', fontWeight: 'bold', fontSize: '14px' }}>සාමාන්‍යාධිකාරී</div>
+                <div style={{ marginTop: '5px', fontSize: '14px' }}>සාමාන්‍යාධිකාරී</div>
               </div>
 
-              {/* Red Star Seal Graphic */}
-              <div style={{ width: '110px', height: '110px', backgroundColor: '#991b1b', clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '12px', textAlign: 'center', fontWeight: 'bold', lineHeight: '1.2' }}>
-                සමිතියේ<br/>මුද්‍රාව
+              {/* Red Starburst Seal */}
+              <div style={{ position: 'relative', width: '110px', height: '110px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ position: 'absolute' }}>
+                  <path d="M 50 0 L 58 15 L 75 3 L 77 22 L 96 18 L 90 36 L 100 50 L 90 64 L 96 82 L 77 78 L 75 97 L 58 85 L 50 100 L 42 85 L 25 97 L 23 78 L 4 82 L 10 64 L 0 50 L 10 36 L 4 18 L 23 22 L 25 3 L 42 15 Z" fill="#b91c1c" />
+                </svg>
+                <div style={{ position: 'relative', color: '#fff', fontSize: '11px', textAlign: 'center', fontWeight: 'bold', lineHeight: '1.3' }}>
+                  සමිතියේ<br/>මුද්‍රාව
+                </div>
               </div>
 
               <div style={{ textAlign: 'center' }}>
                 <div>...................................................</div>
-                <div style={{ marginTop: '5px', fontWeight: 'bold', fontSize: '14px' }}>ගරු සභාපති</div>
+                <div style={{ marginTop: '5px', fontSize: '14px' }}>ගරු සභාපති</div>
               </div>
+
             </div>
 
           </div>
@@ -316,7 +352,6 @@ export default function Home() {
 
       </div>
 
-      {/* Global CSS for Handling Print vs Screen Visibility */}
       <style jsx global>{`
         @media screen {
           .print-only {
@@ -338,7 +373,7 @@ export default function Home() {
           }
           @page {
             size: A4;
-            margin: 10mm;
+            margin: 5mm;
           }
         }
       `}</style>
