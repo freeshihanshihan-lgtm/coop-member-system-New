@@ -53,58 +53,16 @@ export default function Home() {
     ? members 
     : members.filter(m => m.region === filterRegion);
 
-  // SVG Logos
-  const RoundCoopLogo = () => (
-    <svg viewBox="0 0 500 500" width="100%" height="100%">
-      <path d="M 250,10 A 240,240 0 0,1 490,250 L 410,250 A 160,160 0 0,0 250,90 Z" fill="#d97706" />
-      <path d="M 490,250 A 240,240 0 0,1 250,490 L 250,410 A 160,160 0 0,0 410,250 Z" fill="#16a34a" />
-      <path d="M 250,490 A 240,240 0 0,1 10,250 L 90,250 A 160,160 0 0,0 250,410 Z" fill="#2563eb" />
-      <path d="M 10,250 A 240,240 0 0,1 250,10 L 250,90 A 160,160 0 0,0 90,250 Z" fill="#c026d3" />
-      <circle cx="250" cy="250" r="160" fill="#ffffff" stroke="#000" strokeWidth="8" />
-      {/* Center Gear */}
-      <circle cx="250" cy="250" r="105" fill="#000000" />
-      <circle cx="250" cy="250" r="75" fill="#ffffff" />
-      {/* Figures */}
-      <g fill="#000000">
-        <circle cx="200" cy="210" r="14" />
-        <circle cx="250" cy="200" r="14" />
-        <circle cx="300" cy="210" r="14" />
-        <path d="M 185,230 L 215,230 L 210,280 L 190,280 Z" />
-        <path d="M 235,220 L 265,220 L 260,280 L 240,280 Z" />
-        <path d="M 285,230 L 315,230 L 310,280 L 290,280 Z" />
-        <path d="M 220,205 L 280,185 L 275,175 L 215,195 Z" />
-      </g>
-      {/* Wheat Details */}
-      <path d="M 110,220 Q 125,140 210,130" stroke="#ca8a04" strokeWidth="8" fill="none" />
-      <path d="M 390,220 Q 375,140 290,130" stroke="#ca8a04" strokeWidth="8" fill="none" />
-      {/* Sinhala & Tamil Text Arc Simulation */}
-      <text x="250" y="400" textAnchor="middle" fontSize="32" fontWeight="bold" fontFamily="sans-serif" fill="#000">සමූපාකාරය CO-OP</text>
-    </svg>
-  );
-
-  const CoopTextLogo = () => (
-    <svg viewBox="0 0 350 160" width="100%" height="100%">
-      <g fill="#f97316">
-        <path d="M 70 100 C 40 100 20 80 20 50 C 20 20 40 0 70 0 C 95 0 115 15 118 38 L 88 38 C 85 28 78 22 70 22 C 55 22 48 34 48 50 C 48 66 55 78 70 78 C 78 78 85 72 88 62 L 118 62 C 115 85 95 100 70 100 Z" />
-        <circle cx="160" cy="50" r="50" />
-        <circle cx="160" cy="50" r="23" fill="#ffffff" />
-        <circle cx="250" cy="50" r="50" />
-        <circle cx="250" cy="50" r="23" fill="#ffffff" />
-        <path d="M 300 0 L 330 0 L 330 110 C 330 135 310 150 285 150 L 285 125 C 298 125 300 118 300 108 L 300 88 C 292 96 280 100 268 100 C 240 100 220 80 220 50 C 220 20 240 0 268 0 C 280 0 292 4 300 12 Z M 275 22 C 260 22 250 34 250 50 C 250 66 260 78 275 78 C 290 78 300 66 300 50 C 300 34 290 22 275 22 Z" />
-      </g>
-    </svg>
-  );
-
   return (
     <div style={{ fontFamily: "'Iskoola Pota', 'Noto Sans Sinhala', Arial, sans-serif", padding: '20px', maxWidth: '1000px', margin: 'auto' }}>
       
       {/* SCREEN ONLY VIEW */}
       <div className="no-print">
         
-        {/* HEADER WITH LOGOS */}
+        {/* HEADER WITH REAL UPLOADED LOGOS */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #cbd5e1', paddingBottom: '15px', marginBottom: '20px' }}>
           <div style={{ width: '85px', height: '85px' }}>
-            <RoundCoopLogo />
+            <img src="/logo-round.png" alt="Coop Round Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <div style={{ textAlign: 'center', flexGrow: 1 }}>
             <h1 style={{ color: '#1a365d', margin: '0', fontSize: '24px' }}>
@@ -114,8 +72,8 @@ export default function Home() {
               සාමාජික කළමනාකරණ පද්ධතිය (Member Management System)
             </h3>
           </div>
-          <div style={{ width: '100px', height: '50px' }}>
-            <CoopTextLogo />
+          <div style={{ width: '110px', height: '55px' }}>
+            <img src="/logo-coop.png" alt="Coop Text Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
         </div>
 
@@ -176,12 +134,11 @@ export default function Home() {
           </button>
         </form>
 
-        {/* MEMBER LIST & REGION FILTER FOR PDF */}
+        {/* MEMBER LIST & FILTER */}
         <div style={{ background: '#fff', padding: '15px', borderRadius: '8px', border: '1px solid #cbd5e1', marginBottom: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
             <h2>සාමාජික ලැයිස්තුව ({filteredMembers.length})</h2>
             
-            {/* FILTER BY REGION */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <label style={{ fontWeight: 'bold' }}>ප්‍රාදේශිකය අනුව වෙන් කරන්න:</label>
               <select value={filterRegion} onChange={(e) => setFilterRegion(e.target.value)} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #2563eb' }}>
@@ -238,10 +195,10 @@ export default function Home() {
         </table>
       </div>
 
-      {/* PRINT AREA (FOR A4 PDF OUTPUT) */}
+      {/* PRINT AREA (A4 OUTPUT) */}
       <div className="print-only" ref={printRef}>
         
-        {/* 1. SUMMARY LIST PDF (REGION FILTERED) */}
+        {/* 1. SUMMARY LIST PDF */}
         {activePrint === 'summary' && (
           <div style={{ padding: '10mm', color: '#000' }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -312,7 +269,7 @@ export default function Home() {
                 
                 {/* Left Co-op Round Logo */}
                 <div style={{ width: '85px', height: '85px' }}>
-                  <RoundCoopLogo />
+                  <img src="/logo-round.png" alt="Coop Round Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
 
                 {/* Center Title Text */}
@@ -325,8 +282,8 @@ export default function Home() {
                 </div>
 
                 {/* Right Orange COOP Logo */}
-                <div style={{ width: '100px', height: '45px' }}>
-                  <CoopTextLogo />
+                <div style={{ width: '110px', height: '55px' }}>
+                  <img src="/logo-coop.png" alt="Coop Text Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
               </div>
 
