@@ -15,6 +15,7 @@ export default function Home() {
     region: 'ගන්දර'
   });
 
+  const [filterRegion, setFilterRegion] = useState('ALL');
   const [activePrint, setActivePrint] = useState(null);
   const printRef = useRef();
 
@@ -48,19 +49,77 @@ export default function Home() {
     }, 300);
   };
 
+  const filteredMembers = filterRegion === 'ALL' 
+    ? members 
+    : members.filter(m => m.region === filterRegion);
+
+  // SVG Logos
+  const RoundCoopLogo = () => (
+    <svg viewBox="0 0 500 500" width="100%" height="100%">
+      <path d="M 250,10 A 240,240 0 0,1 490,250 L 410,250 A 160,160 0 0,0 250,90 Z" fill="#d97706" />
+      <path d="M 490,250 A 240,240 0 0,1 250,490 L 250,410 A 160,160 0 0,0 410,250 Z" fill="#16a34a" />
+      <path d="M 250,490 A 240,240 0 0,1 10,250 L 90,250 A 160,160 0 0,0 250,410 Z" fill="#2563eb" />
+      <path d="M 10,250 A 240,240 0 0,1 250,10 L 250,90 A 160,160 0 0,0 90,250 Z" fill="#c026d3" />
+      <circle cx="250" cy="250" r="160" fill="#ffffff" stroke="#000" strokeWidth="8" />
+      {/* Center Gear */}
+      <circle cx="250" cy="250" r="105" fill="#000000" />
+      <circle cx="250" cy="250" r="75" fill="#ffffff" />
+      {/* Figures */}
+      <g fill="#000000">
+        <circle cx="200" cy="210" r="14" />
+        <circle cx="250" cy="200" r="14" />
+        <circle cx="300" cy="210" r="14" />
+        <path d="M 185,230 L 215,230 L 210,280 L 190,280 Z" />
+        <path d="M 235,220 L 265,220 L 260,280 L 240,280 Z" />
+        <path d="M 285,230 L 315,230 L 310,280 L 290,280 Z" />
+        <path d="M 220,205 L 280,185 L 275,175 L 215,195 Z" />
+      </g>
+      {/* Wheat Details */}
+      <path d="M 110,220 Q 125,140 210,130" stroke="#ca8a04" strokeWidth="8" fill="none" />
+      <path d="M 390,220 Q 375,140 290,130" stroke="#ca8a04" strokeWidth="8" fill="none" />
+      {/* Sinhala & Tamil Text Arc Simulation */}
+      <text x="250" y="400" textAnchor="middle" fontSize="32" fontWeight="bold" fontFamily="sans-serif" fill="#000">සමූපාකාරය CO-OP</text>
+    </svg>
+  );
+
+  const CoopTextLogo = () => (
+    <svg viewBox="0 0 350 160" width="100%" height="100%">
+      <g fill="#f97316">
+        <path d="M 70 100 C 40 100 20 80 20 50 C 20 20 40 0 70 0 C 95 0 115 15 118 38 L 88 38 C 85 28 78 22 70 22 C 55 22 48 34 48 50 C 48 66 55 78 70 78 C 78 78 85 72 88 62 L 118 62 C 115 85 95 100 70 100 Z" />
+        <circle cx="160" cy="50" r="50" />
+        <circle cx="160" cy="50" r="23" fill="#ffffff" />
+        <circle cx="250" cy="50" r="50" />
+        <circle cx="250" cy="50" r="23" fill="#ffffff" />
+        <path d="M 300 0 L 330 0 L 330 110 C 330 135 310 150 285 150 L 285 125 C 298 125 300 118 300 108 L 300 88 C 292 96 280 100 268 100 C 240 100 220 80 220 50 C 220 20 240 0 268 0 C 280 0 292 4 300 12 Z M 275 22 C 260 22 250 34 250 50 C 250 66 260 78 275 78 C 290 78 300 66 300 50 C 300 34 290 22 275 22 Z" />
+      </g>
+    </svg>
+  );
+
   return (
     <div style={{ fontFamily: "'Iskoola Pota', 'Noto Sans Sinhala', Arial, sans-serif", padding: '20px', maxWidth: '1000px', margin: 'auto' }}>
       
       {/* SCREEN ONLY VIEW */}
       <div className="no-print">
-        <h1 style={{ textAlign: 'center', color: '#1a365d', marginBottom: '5px' }}>
-          සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය
-        </h1>
-        <h3 style={{ textAlign: 'center', color: '#4a5568', marginTop: '0', fontWeight: 'normal' }}>
-          සාමාජික කළමනාකරණ පද්ධතිය (Member Management System)
-        </h3>
+        
+        {/* HEADER WITH LOGOS */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #cbd5e1', paddingBottom: '15px', marginBottom: '20px' }}>
+          <div style={{ width: '85px', height: '85px' }}>
+            <RoundCoopLogo />
+          </div>
+          <div style={{ textAlign: 'center', flexGrow: 1 }}>
+            <h1 style={{ color: '#1a365d', margin: '0', fontSize: '24px' }}>
+              සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය
+            </h1>
+            <h3 style={{ color: '#4a5568', margin: '5px 0 0 0', fontWeight: 'normal', fontSize: '16px' }}>
+              සාමාජික කළමනාකරණ පද්ධතිය (Member Management System)
+            </h3>
+          </div>
+          <div style={{ width: '100px', height: '50px' }}>
+            <CoopTextLogo />
+          </div>
+        </div>
 
-        {/* INPUT FORM WITH PRADESHIKAYA SELECT BOX */}
+        {/* FORM */}
         <form onSubmit={handleSubmit} style={{ background: '#f8fafc', padding: '20px', borderRadius: '8px', border: '1px solid #cbd5e1', marginBottom: '30px' }}>
           <h3 style={{ marginTop: 0, color: '#2563eb' }}>නව සාමාජිකයෙකු ඇතුළත් කිරීම / Add New Member</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
@@ -117,13 +176,30 @@ export default function Home() {
           </button>
         </form>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-          <h2>සාමාජික ලැයිස්තුව / Member List ({members.length})</h2>
-          {members.length > 0 && (
-            <button onClick={() => handlePrint('summary')} style={{ padding: '10px 18px', backgroundColor: '#16a34a', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '15px' }}>
-              📄 මුළු නාම ලේඛනයම PDF ලෙස ගන්න
-            </button>
-          )}
+        {/* MEMBER LIST & REGION FILTER FOR PDF */}
+        <div style={{ background: '#fff', padding: '15px', borderRadius: '8px', border: '1px solid #cbd5e1', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+            <h2>සාමාජික ලැයිස්තුව ({filteredMembers.length})</h2>
+            
+            {/* FILTER BY REGION */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <label style={{ fontWeight: 'bold' }}>ප්‍රාදේශිකය අනුව වෙන් කරන්න:</label>
+              <select value={filterRegion} onChange={(e) => setFilterRegion(e.target.value)} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #2563eb' }}>
+                <option value="ALL">සියලුම ප්‍රාදේශික (All Regions)</option>
+                <option value="ගන්දර">ගන්දර (Gandara)</option>
+                <option value="කන්දගොඩැල්ල">කන්දගොඩැල්ල (Kandagodella)</option>
+                <option value="කපුගම">කපුගම (Kapugama)</option>
+                <option value="අපරැක්ක">අපරැක්ක (Aparekka)</option>
+                <option value="නා ඔටුන්න">නා ඔටුන්න (Na Otunna)</option>
+              </select>
+
+              {filteredMembers.length > 0 && (
+                <button onClick={() => handlePrint('summary')} style={{ padding: '8px 16px', backgroundColor: '#16a34a', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                  📄 {filterRegion === 'ALL' ? 'සියලුම' : filterRegion} නාම ලේඛනය PDF ලෙස ගන්න
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', borderColor: '#cbd5e1' }}>
@@ -138,12 +214,12 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {members.length === 0 ? (
+            {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center', color: '#64748b' }}>තවමත් සාමාජිකයින් ඇතුළත් කර නොමැත.</td>
+                <td colSpan="6" style={{ textAlign: 'center', color: '#64748b' }}>මෙම ප්‍රාදේශිකයේ සාමාජිකයින් නොමැත.</td>
               </tr>
             ) : (
-              members.map((m) => (
+              filteredMembers.map((m) => (
                 <tr key={m.id}>
                   <td>{m.memberNo}</td>
                   <td>{m.fullName}</td>
@@ -162,15 +238,17 @@ export default function Home() {
         </table>
       </div>
 
-      {/* PRINT AREA (A4 OUTPUT) */}
+      {/* PRINT AREA (FOR A4 PDF OUTPUT) */}
       <div className="print-only" ref={printRef}>
         
-        {/* 1. FULL SUMMARY LIST PDF */}
+        {/* 1. SUMMARY LIST PDF (REGION FILTERED) */}
         {activePrint === 'summary' && (
           <div style={{ padding: '10mm', color: '#000' }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <h2 style={{ margin: '0', fontSize: '20px', textDecoration: 'underline' }}>සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
-              <h3 style={{ margin: '5px 0', fontSize: '17px', textDecoration: 'underline' }}>සාමාජික නාම ලේඛනය</h3>
+              <h3 style={{ margin: '5px 0', fontSize: '17px', textDecoration: 'underline' }}>
+                {filterRegion === 'ALL' ? 'මුළු සාමාජික නාම ලේඛනය' : `${filterRegion} ප්‍රාදේශික සාමාජික නාම ලේඛනය`}
+              </h3>
             </div>
 
             <table border="1" cellPadding="6" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'center', fontSize: '13px', borderColor: '#000' }}>
@@ -186,7 +264,7 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {members.map((m, idx) => (
+                {filteredMembers.map((m, idx) => (
                   <tr key={m.id}>
                     <td>{idx + 1}</td>
                     <td>{m.memberNo}</td>
@@ -201,7 +279,7 @@ export default function Home() {
             </table>
 
             <p style={{ fontSize: '13px', marginTop: '30px', lineHeight: '1.8', textAlign: 'justify' }}>
-              ඉහත අනු අංක .......... සිට .......... දක්වා වූ සාමාජිකයින් සී/ස දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතියේ අංක .......... දරණ Pradeshiya වර්ෂ ........ මස ....... දින ........ට පෙර සාමාජිකත්වය ලබාගෙන ඇති වර්ෂ ....... මස ...... දින ....... ඡන්දය සඳහා සුදුසුකම් ඇති සාමාජිකයින්ගේ නාම ලේඛනය බව මෙයින් සහතික කරමු.
+              ඉහත අනු අංක .......... සිට .......... දක්වා වූ සාමාජිකයින් සී/ස දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතියේ අංක .......... දරණ {filterRegion === 'ALL' ? 'ප්‍රාදේශිකයේ' : filterRegion + ' ප්‍රාදේශිකයේ'} වර්ෂ ........ මස ....... දින ........ට පෙර සාමාජිකත්වය ලබාගෙන ඇති වර්ෂ ....... මස ...... දින ....... ඡන්දය සඳහා සුදුසුකම් ඇති සාමාජිකයින්ගේ නාම ලේඛනය බව මෙයින් සහතික කරමු.
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '60px', textAlign: 'center', fontSize: '13px' }}>
@@ -228,26 +306,16 @@ export default function Home() {
         {activePrint && activePrint !== 'summary' && (
           <div style={{ border: '2px solid #000', padding: '10mm', minHeight: '270mm', position: 'relative', color: '#000', boxSizing: 'border-box' }}>
             
-            {/* Header Logos */}
+            {/* Header Header Info with Exact Logos */}
             <div style={{ borderBottom: '3px solid #000', paddingBottom: '10px', marginBottom: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 
-                {/* Left Co-op Emblem Logo SVG */}
-                <div style={{ width: '90px', height: '90px' }}>
-                  <svg viewBox="0 0 100 100" width="100%" height="100%">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#6b21a8" strokeWidth="6" />
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#dc2626" strokeWidth="3" />
-                    <circle cx="50" cy="50" r="34" fill="none" stroke="#eab308" strokeWidth="3" />
-                    <circle cx="50" cy="50" r="30" fill="none" stroke="#16a34a" strokeWidth="3" />
-                    <circle cx="50" cy="50" r="26" fill="none" stroke="#2563eb" strokeWidth="3" />
-                    <circle cx="50" cy="50" r="18" fill="#1e293b" />
-                    <path d="M 50,38 L 46,54 L 54,54 Z" fill="#fff" />
-                    <path d="M 40,48 L 50,56 L 45,64 Z" fill="#fff" />
-                    <path d="M 60,48 L 50,56 L 55,64 Z" fill="#fff" />
-                  </svg>
+                {/* Left Co-op Round Logo */}
+                <div style={{ width: '85px', height: '85px' }}>
+                  <RoundCoopLogo />
                 </div>
 
-                {/* Header Text */}
+                {/* Center Title Text */}
                 <div style={{ textAlign: 'center', flexGrow: 1 }}>
                   <h2 style={{ margin: 0, color: '#312e81', fontSize: '22px', fontWeight: 'bold' }}>සීමා සහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
                   <div style={{ fontSize: '13px', fontWeight: 'bold', margin: '2px 0' }}>අංක:111, තංගල්ල පාර, දෙවිනුවර</div>
@@ -256,26 +324,25 @@ export default function Home() {
                   <div style={{ fontSize: '12px', color: '#0000ff', textDecoration: 'underline', fontWeight: 'bold' }}>mpcsdevinuwara@gmail.com</div>
                 </div>
 
-                {/* Right Orange COOP Logo SVG */}
-                <div style={{ width: '100px', textAlign: 'right' }}>
-                  <svg viewBox="0 0 120 50" width="100%" height="45">
-                    <text x="0" y="38" fill="#ea580c" fontSize="38" fontWeight="900" fontFamily="sans-serif">coop</text>
-                  </svg>
+                {/* Right Orange COOP Logo */}
+                <div style={{ width: '100px', height: '45px' }}>
+                  <CoopTextLogo />
                 </div>
               </div>
 
+              {/* Reference Reg Nos */}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginTop: '10px', fontWeight: 'bold' }}>
                 <div>මගේ අංකය: M/D/M/GM/ දෙවි/.........../...........</div>
                 <div style={{ textAlign: 'right' }}>ලියාපදිංචි අංකය:<br/>මාර/දෙවි/05</div>
               </div>
             </div>
 
-            {/* Title */}
+            {/* Main Certificate Title */}
             <div style={{ textAlign: 'center', margin: '35px 0' }}>
               <h1 style={{ fontSize: '32px', margin: 0, fontWeight: 'normal', fontFamily: 'serif' }}>සාමාජික කොටස් සහතිකය</h1>
             </div>
 
-            {/* Formatted Certificate Fields */}
+            {/* Exact Formatted Data Rows */}
             <div style={{ width: '85%', margin: '0 auto', fontSize: '16px', lineHeight: '2.8' }}>
               
               <div style={{ display: 'flex' }}>
@@ -322,7 +389,7 @@ export default function Home() {
 
             </div>
 
-            {/* Footer Signatures and Red Seal */}
+            {/* Footer Signatures and Red Starburst Seal */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '60px', padding: '0 20px' }}>
               
               <div style={{ textAlign: 'center' }}>
@@ -330,7 +397,7 @@ export default function Home() {
                 <div style={{ marginTop: '5px', fontSize: '14px' }}>සාමාන්‍යාධිකාරී</div>
               </div>
 
-              {/* Red Starburst Seal */}
+              {/* Exact Red Starburst Seal Graphic */}
               <div style={{ position: 'relative', width: '110px', height: '110px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ position: 'absolute' }}>
                   <path d="M 50 0 L 58 15 L 75 3 L 77 22 L 96 18 L 90 36 L 100 50 L 90 64 L 96 82 L 77 78 L 75 97 L 58 85 L 50 100 L 42 85 L 25 97 L 23 78 L 4 82 L 10 64 L 0 50 L 10 36 L 4 18 L 23 22 L 25 3 L 42 15 Z" fill="#b91c1c" />
