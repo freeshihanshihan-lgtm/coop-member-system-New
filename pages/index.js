@@ -43,14 +43,7 @@
       font-weight: normal;
       font-size: 15px;
     }
-    .logo-img-round {
-      width: 85px;
-      height: 85px;
-      object-fit: contain;
-    }
-    .logo-img-coop {
-      width: 110px;
-      height: 55px;
+    .logo-img {
       object-fit: contain;
     }
     form {
@@ -111,7 +104,7 @@
       .no-print { display: none !important; }
       .print-only { display: block !important; width: 100%; }
       body { background: #fff; padding: 0; }
-      @page { size: A4; margin: 5mm; }
+      @page { size: A4; margin: 10mm; }
     }
   </style>
 </head>
@@ -120,12 +113,39 @@
   <div class="container no-print">
     <!-- HEADER LOGOS -->
     <div class="header">
-      <img src="logo-round.png" alt="Round Logo" class="logo-img-round">
+      <div style="width: 85px; height: 85px;">
+        <svg viewBox="0 0 500 500" width="100%" height="100%">
+          <circle cx="250" cy="250" r="240" fill="#d97706"/>
+          <path d="M250 10 A240 240 0 0 1 490 250 L250 250 Z" fill="#16a34a"/>
+          <path d="M490 250 A240 240 0 0 1 250 490 L250 250 Z" fill="#2563eb"/>
+          <path d="M250 490 A240 240 0 0 1 10 250 L250 250 Z" fill="#c026d3"/>
+          <circle cx="250" cy="250" r="200" fill="#ffffff"/>
+          <circle cx="250" cy="250" r="160" fill="none" stroke="#000000" stroke-width="6"/>
+          <circle cx="250" cy="250" r="110" fill="#000000"/>
+          <circle cx="250" cy="250" r="75" fill="#ffffff"/>
+          <g fill="#000000">
+            <circle cx="200" cy="205" r="14"/><circle cx="250" cy="195" r="14"/><circle cx="300" cy="205" r="14"/>
+            <path d="M185 225 L215 225 L210 280 L190 280 Z"/><path d="M235 215 L265 215 L260 280 L240 280 Z"/><path d="M285 225 L315 225 L310 280 L290 280 Z"/><path d="M215 195 L285 175 L280 165 L210 185 Z"/>
+          </g>
+          <path d="M100 210 Q120 120 210 110" stroke="#ca8a04" stroke-width="10" fill="none"/>
+          <path d="M400 210 Q380 120 290 110" stroke="#ca8a04" stroke-width="10" fill="none"/>
+          <text x="250" y="410" text-anchor="middle" font-size="28" font-weight="bold" font-family="Arial" fill="#000">සමූපාකාරය CO-OP</text>
+        </svg>
+      </div>
       <div class="header-title">
         <h1>සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h1>
         <h3>සාමාජික කළමනාකරණ පද්ධතිය (Member Management System)</h3>
       </div>
-      <img src="logo-coop.png" alt="COOP Logo" class="logo-img-coop">
+      <div style="width: 110px; height: 55px;">
+        <svg viewBox="0 0 350 160" width="100%" height="100%">
+          <g fill="#f97316">
+            <path d="M 70 100 C 40 100 20 80 20 50 C 20 20 40 0 70 0 C 95 0 115 15 118 38 L 88 38 C 85 28 78 22 70 22 C 55 22 48 34 48 50 C 48 66 55 78 70 78 C 78 78 85 72 88 62 L 118 62 C 115 85 95 100 70 100 Z"/>
+            <circle cx="160" cy="50" r="50"/><circle cx="160" cy="50" r="23" fill="#ffffff"/>
+            <circle cx="250" cy="50" r="50"/><circle cx="250" cy="50" r="23" fill="#ffffff"/>
+            <path d="M 300 0 L 330 0 L 330 110 C 330 135 310 150 285 150 L 285 125 C 298 125 300 118 300 108 L 300 88 C 292 96 280 100 268 100 C 240 100 220 80 220 50 C 220 20 240 0 268 0 C 280 0 292 4 300 12 Z M 275 22 C 260 22 250 34 250 50 C 250 66 260 78 275 78 C 290 78 300 66 300 50 C 300 34 290 22 275 22 Z"/>
+          </g>
+        </svg>
+      </div>
     </div>
 
     <!-- ADD FORM -->
@@ -251,13 +271,9 @@
       `).join('');
 
       document.getElementById('printArea').innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:15px;">
-          <img src="logo-round.png" style="width:75px; height:75px; object-fit:contain;">
-          <div style="text-align:center; flex-grow:1;">
-            <h2 style="margin:0; font-size:18px;">සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
-            <h3 style="margin:5px 0 0 0; font-size:15px;">${filter === 'ALL' ? 'මුළු සාමාජික නාම ලේඛනය' : filter + ' ප්‍රාදේශික සාමාජික නාම ලේඛනය'}</h3>
-          </div>
-          <img src="logo-coop.png" style="width:90px; height:45px; object-fit:contain;">
+        <div style="text-align:center; margin-bottom:20px;">
+          <h2 style="margin:0;">සීමාසහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
+          <h3>${filter === 'ALL' ? 'මුළු සාමාජික නාම ලේඛනය' : filter + ' ප්‍රාදේශික සාමාජික නාම ලේඛනය'}</h3>
         </div>
         <table border="1" style="width:100%; border-collapse:collapse; text-align:center; font-size:12px;">
           <thead>
@@ -272,27 +288,17 @@
     function printCertificate(index) {
       const m = members[index];
       document.getElementById('printArea').innerHTML = `
-        <div style="border:2px solid #000; padding:10mm; min-height:260mm;">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #000; padding-bottom:10px; margin-bottom:10px;">
-            <img src="logo-round.png" style="width:85px; height:85px; object-fit:contain;">
-            <div style="text-align:center; flex-grow:1;">
-              <h2 style="margin:0; color:#312e81; font-size:20px; font-weight:bold;">සීමා සහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
-              <div style="font-size:12px; font-weight:bold; margin:2px 0;">අංක:111, තංගල්ල පාර, දෙවිනුවර</div>
-              <div style="font-size:14px; font-weight:bold;">Multi-Purpose Co-operative Societies Ltd-Devinuwara</div>
-              <div style="font-size:11px;">No: 111, Tangalle Road, Devinuwara &nbsp;&nbsp; 041-4935340/ 041-2224449</div>
-              <div style="font-size:12px; color:#0000ff; text-decoration:underline;">mpcsdevinuwara@gmail.com</div>
-            </div>
-            <img src="logo-coop.png" style="width:100px; height:50px; object-fit:contain;">
-          </div>
-          <h1 style="text-align:center; margin:30px 0; font-size:28px;">සාමාජික කොටස් සහතිකය</h1>
-          <div style="font-size:16px; line-height:2.8; width:85%; margin:auto;">
-            <div style="display:flex;"><div style="width:45%;">සාමාජිකයාගේ නම</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.fullName}</div></div>
-            <div style="display:flex;"><div style="width:45%;">ලිපිනය</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.address}</div></div>
-            <div style="display:flex;"><div style="width:45%;">ජා.හැ.අ.</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.nic}</div></div>
-            <div style="display:flex;"><div style="width:45%;">සාමාජික අංකය</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.memberNo}</div></div>
-            <div style="display:flex;"><div style="width:45%;">සාමාජිකත්වය ලබා ගත් දිනය</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.joinDate}</div></div>
-            <div style="display:flex;"><div style="width:45%;">ප්‍රාදේශිකය</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">${m.region}</div></div>
-            <div style="display:flex;"><div style="width:45%;">ලබා ගත් කොටස් ප්‍රමාණය</div><div style="width:5%;">-</div><div style="width:50%; border-bottom:1px dotted #000;">Rs. ${m.fee}</div></div>
+        <div style="border:2px solid #000; padding:15mm; min-height:250mm;">
+          <h2 style="text-align:center;">සීමා සහිත දෙවිනුවර විවිධ සේවා සමූපාකාර සමිතිය</h2>
+          <h1 style="text-align:center; margin:30px 0;">සාමාජික කොටස් සහතිකය</h1>
+          <div style="font-size:16px; line-height:2.5; width:80%; margin:auto;">
+            <div><b>සාමාජිකයාගේ නම:</b> ${m.fullName}</div>
+            <div><b>ලිපිනය:</b> ${m.address}</div>
+            <div><b>ජා.හැ.අ.:</b> ${m.nic}</div>
+            <div><b>සාමාජික අංකය:</b> ${m.memberNo}</div>
+            <div><b>දිනය:</b> ${m.joinDate}</div>
+            <div><b>ප්‍රාදේශිකය:</b> ${m.region}</div>
+            <div><b>කොටස් මුදල:</b> Rs. ${m.fee}</div>
           </div>
         </div>
       `;
